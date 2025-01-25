@@ -25,23 +25,10 @@ node {
 
             try {
                 docker.image('python').inside {
-                   // Create a virtual environment and activate it
-                    sh '''
-                    python3 -m venv /tmp/venv
-                    . /tmp/venv/bin/activate
-
-                    # Install PyInstaller inside the virtual environment
-                    pip install pyinstaller
-
-                    # Verify installation
-                    pip show pyinstaller
-
-                    # Run PyInstaller to create a single executable
-                    /tmp/venv/bin/pyinstaller --onefile sources/add2vals.py --distpath dist/ --workpath /tmp/build
-                    '''
-
-                    // Check if the artifact is created
-                    sh 'ls -la dist/'
+                    sh 'python3 -m venv /tmp/venv'
+                    sh '. /tmp/venv/bin/activate'
+                    sh 'pip install pyinstaller'
+                    sh '/tmp/venv/bin/pyinstaller --onefile sources/add2vals.py'
 
                 }
                 deliverSuccess = true
