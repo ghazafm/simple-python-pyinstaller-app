@@ -24,10 +24,11 @@ node {
             def success = false
 
             try {
-                docker.image('cdrx/pyinstaller-linux').inside {
-                    // sh 'pyinstaller --onefile sources/add2vals.py'
+                docker.image('python').inside("--privileged") {
+                    sh 'pip install pyinstaller'
                     sh 'ls -al /'  // Verify if PyInstaller exists
                     sh 'pyinstaller --version'  // Check if PyInstaller is installed and working
+                    // sh 'pyinstaller --onefile sources/add2vals.py'
                 }
                 deliverSuccess = true
             }catch (Exception e) {
