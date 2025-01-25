@@ -27,6 +27,7 @@ node {
                 docker.image('python').inside {
                     sh 'pip install --target=/tmp/pyinstaller pyinstaller'
                     sh 'export PATH=/tmp/pyinstaller/bin:$PATH'
+                    sh 'export PYTHONPATH="/tmp/pyinstaller:$PYTHONPATH"'
                     sh 'ls -la /tmp/pyinstaller/'
                     sh 'ls -la /tmp/pyinstaller/bin'
                     sh '/tmp/pyinstaller/bin/pyinstaller --onefile sources/add2vals.py'
