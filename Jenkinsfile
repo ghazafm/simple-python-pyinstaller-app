@@ -25,7 +25,7 @@ node {
 
             try {
                 docker.image('cdrx/pyinstaller-linux:python2').inside("--entrypoint=''") {
-                    sh 'apt-get update && apt-get install -y python-pip'
+                    sh 'python sources/get-pip.py'
                     sh 'pip install pyinstaller'
                     sh 'pyinstaller --onefile sources/add2vals.py'
                 }
