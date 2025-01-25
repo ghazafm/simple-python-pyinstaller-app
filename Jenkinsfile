@@ -27,7 +27,9 @@ node {
                 docker.image('python').inside {
                     sh 'pip install --target=/tmp/pyinstaller pyinstaller'
                     sh 'export PATH=/tmp/pyinstaller:$PATH'
-                    sh 'python -m pyinstaller --onefile sources/add2vals.py'
+                    // sh 'python -m pyinstaller --onefile sources/add2vals.py'
+                    sh 'PYTHONPATH=/tmp/pyinstaller python -m pyinstaller --onefile sources/add2vals.py'
+
                 }
                 deliverSuccess = true
             }catch (Exception e) {
@@ -50,7 +52,7 @@ node {
 
         def message = [
             "*${currentBuild.currentResult}* :white_check_mark: Job: *${env.JOB_NAME}* Build: *${env.BUILD_NUMBER}*",
-            "Branch: *${GIT_BRANCH}*",
+            "Branch: master",
             "Build Duration: *${buildTime}*",
             "More info: <${env.BUILD_URL}|View Build>"
         ].join("\n")
