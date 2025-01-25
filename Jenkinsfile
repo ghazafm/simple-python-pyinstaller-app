@@ -24,14 +24,19 @@ node {
             def success = false
 
             try {
-                docker.image('python').inside {
-                    sh 
-                    '''
+                docker.image('python').inside {                   
+                    sh '''
                     python3 -m venv /tmp/venv
                     . /tmp/venv/bin/activate
+
                     pip install pyinstaller
-                    pyinstaller --onefile sources/add2vals.py
+
+                    /tmp/venv/bin/pyinstaller --onefile sources/add2vals.py
                     '''
+
+                    // Check if the artifact is created
+                    sh 'ls -la dist/'
+
                 }
                 deliverSuccess = true
             }catch (Exception e) {
