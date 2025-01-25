@@ -23,7 +23,7 @@ node {
         def success = false
 
         try {
-            docker.image('cdrx/pyinstaller-linux:python2').inside {
+            docker.image('cdrx/pyinstaller-linux:python2').inside("-v ${pwd()}:/workspace --timeout=600") {
                 sh 'pyinstaller --onefile sources/add2vals.py'
             }
             deliverSuccess = true
