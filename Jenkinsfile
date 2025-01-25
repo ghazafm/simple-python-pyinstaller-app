@@ -25,7 +25,7 @@ node {
 
             try {
                 docker.image('python').inside {
-                    sh 'pip install pyinstaller'
+                    sh 'pip install pyinstaller --user pyinstaller'
                     sh 'pyinstaller --onefile sources/add2vals.py'
                 }
                 deliverSuccess = true
