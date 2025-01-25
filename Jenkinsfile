@@ -44,7 +44,7 @@ node {
         echo "Build failed due to exception: ${e.getMessage()}"
     } finally {
         // Saya mencoba menambahkan fitur notifikasi yang dikirim ke channel slack saya
-        stage('Notification') {z
+        stage('Notification') {
             def buildDuration = (currentBuild.duration / 1000).intValue()
             def buildTime = String.format("%02d:%02d", (buildDuration / 60).intValue(), (buildDuration % 60).intValue())
 
