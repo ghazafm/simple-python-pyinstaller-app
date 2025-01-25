@@ -25,7 +25,7 @@ node {
 
             try {
                 docker.image('python').inside("--privileged") {
-                    sh 'pip install pyinstaller'
+                    sh 'pip install --user pyinstaller'
                     sh 'ls -al /'  // Verify if PyInstaller exists
                     sh 'pyinstaller --version'  // Check if PyInstaller is installed and working
                     // sh 'pyinstaller --onefile sources/add2vals.py'
