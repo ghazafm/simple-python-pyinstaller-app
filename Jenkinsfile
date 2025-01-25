@@ -40,7 +40,7 @@ node {
                     /tmp/venv/bin/pyinstaller --onefile sources/add2vals.py --distpath dist/ --workpath /tmp/build
                     '''
 
-                    # Check if the artifact is created
+                    // Check if the artifact is created
                     sh 'ls -la dist/'
 
                 }
