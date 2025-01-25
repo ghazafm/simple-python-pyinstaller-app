@@ -10,7 +10,7 @@ node {
         }
 
         stage('Build') {
-            docker.image('python:2-alpine').inside {
+            docker.image('python').inside {
                 sh 'python -m py_compile sources/add2vals.py sources/calc.py'
             }
         }
@@ -25,7 +25,9 @@ node {
 
             try {
                 docker.image('cdrx/pyinstaller-linux').inside {
-                    sh 'pyinstaller --onefile sources/add2vals.py'
+                    // sh 'pyinstaller --onefile sources/add2vals.py'
+                    sh 'ls -al /'  // Verify if PyInstaller exists
+                    sh 'pyinstaller --version'  // Check if PyInstaller is installed and working
                 }
                 deliverSuccess = true
             }catch (Exception e) {
