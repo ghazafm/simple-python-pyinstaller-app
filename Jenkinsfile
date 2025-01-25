@@ -25,11 +25,13 @@ node {
 
             try {
                 docker.image('python').inside {
-                    sh 'python3 -m venv /tmp/venv'
-                    sh '. /tmp/venv/bin/activate'
-                    sh 'pip install pyinstaller'
-                    sh '/tmp/venv/bin/pyinstaller --onefile sources/add2vals.py'
-
+                    sh 
+                    '''
+                    python3 -m venv /tmp/venv
+                    . /tmp/venv/bin/activate
+                    pip install pyinstaller
+                    pyinstaller --onefile sources/add2vals.py
+                    '''
                 }
                 deliverSuccess = true
             }catch (Exception e) {
