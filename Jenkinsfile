@@ -24,8 +24,7 @@ node {
 
         try {
             docker.image('cdrx/pyinstaller-linux:python2').inside("--entrypoint=''") {
-                // sh 'pyinstaller --onefile sources/add2vals.py'
-                sh 'echo "hello-world"'
+                sh 'pyinstaller --onefile sources/add2vals.py'
             }
             deliverSuccess = true
         }catch (Exception e) {
