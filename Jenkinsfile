@@ -26,6 +26,7 @@ node {
             try {
                 docker.image('python').inside {
                     sh 'pip install --target=/tmp/pyinstaller pyinstaller'
+                    sh 'export PATH=/tmp/pyinstaller:$PATH'
                     sh '/tmp/pyinstaller/pyinstaller --onefile sources/add2vals.py'
                 }
                 deliverSuccess = true
