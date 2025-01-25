@@ -26,9 +26,7 @@ node {
             try {
                 docker.image('python').inside {
                     sh 'pip install --target=/tmp/pyinstaller pyinstaller'
-                    sh 'ls -al /'  // Verify if PyInstaller exists
-                    sh 'pyinstaller --version'  // Check if PyInstaller is installed and working
-                    // sh 'pyinstaller --onefile sources/add2vals.py'
+                    sh '/tmp/pyinstaller/pyinstaller --onefile sources/add2vals.py'
                 }
                 deliverSuccess = true
             }catch (Exception e) {
