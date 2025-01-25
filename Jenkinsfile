@@ -24,7 +24,7 @@ node {
             def success = false
 
             try {
-                docker.image('python:2-alpine').inside {
+                docker.image('python').inside {
                     sh 'pip install pyinstaller'
                     sh 'pyinstaller --onefile sources/add2vals.py'
                 }
