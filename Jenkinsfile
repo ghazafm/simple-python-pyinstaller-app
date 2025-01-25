@@ -1,3 +1,8 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good',  // Green for successful builds
+    'FAILURE': 'danger' // Red for failed builds
+]
+
 node {
     stage('Checkout') {
         checkout scm
@@ -28,6 +33,35 @@ node {
         } finally {
             if (deliverSuccess) {
                 archiveArtifacts 'dist/add2vals'
+            }
+        }
+    }
+
+    // Saya mencoba menambahkan fitur notifikasi yang dikirim ke channel slack saya
+    post {
+        always {
+            script {
+                def buildDuration = (currentBuild.duration / 1000).intValue()
+                def buildTime = String.format("%02d:%02d", (buildDuration / 60).intValue(), (buildDuration % 60).intValue())
+
+                def message = [
+                    "*${currentBuild.currentResult}* :white_check_mark: Job: *${env.JOB_NAME}* Build: *${env.BUILD_NUMBER}*",
+                    "Branch: *${GIT_BRANCH}*",
+                    "Build Duration: *${buildTime}*",
+                    "More info: <${env.BUILD_URL}|View Build>"
+                ].join("\n")
+
+                if (currentBuild.currentResult == 'SUCCESS') {
+                    message += "\nArtifact: *vproapp-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war* Delivered."
+                } else {
+                    message += "\n:exclamation: *Check logs for errors.* Contact the DevOps team if assistance is needed."
+                }
+
+                slackSend(
+                    channel: '#devops',
+                    color: COLOR_MAP[currentBuild.currentResult],
+                    message: message
+                )
             }
         }
     }
