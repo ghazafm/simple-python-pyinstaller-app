@@ -37,11 +37,8 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                apk add --no-cache py3-pip
-                pip install pyinstaller
-                pyinstaller --onefile sources/add2vals.py
-                '''
+                sh 'pip install --no-cache-dir --root /pytest pytest'
+                sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
                 success {
