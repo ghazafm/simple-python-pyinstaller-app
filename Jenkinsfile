@@ -1,5 +1,8 @@
 pipeline {
     agent none
+    environment {
+        SLACK_CHANNEL = '#devops'
+    }
     stages {
         stage('Build') {
             agent {
@@ -18,7 +21,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+                sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
                 always {
@@ -43,6 +46,22 @@ pipeline {
                 success {
                     archiveArtifacts 'dist/add2vals'
                 }
+            }
+        }
+    }
+    post {
+        always {
+            script {
+                def buildDuration = (currentBuild.duration / 1000).intValue()
+                def buildTime = String.format("%02d:%02d", (buildDuration / 60).intValue(), (buildDuration % 60).intValue())
+
+                def color = (currentBuild.currentResult == 'SUCCESS') ? 'good' : 'danger'
+                def message = "*${currentBuild.currentResult}* ✅ Job: *${env.JOB_NAME}* Build: *${env.BUILD_NUMBER}*\n" +
+                            "Branch: master\n" +
+                            "Build Duration: *${buildTime}*\n" +
+                            "More info: <${env.BUILD_URL}|View Build>"
+
+                slackSend(channel: SLACK_CHANNEL, color: color, message: message)
             }
         }
     }
