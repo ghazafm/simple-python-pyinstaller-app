@@ -14,12 +14,11 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'python:3.8-alpine'
+                    image 'safesecurity/pytest'
                 }
             }
             steps {
-                sh 'pip install --no-cache-dir --root /pytest pytest' // ✅ Install pytest in a writable directory
-                sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
                 always {
@@ -27,7 +26,6 @@ pipeline {
                 }
             }
         }
-
         stage('Deliver') {
             agent {
                 docker {
