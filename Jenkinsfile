@@ -26,14 +26,18 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Deploy') {
             agent {
                 docker {
-                    image 'cdrx/pyinstaller-linux:python2'
+                    image 'python:3.8-alpine'
                 }
             }
             steps {
                 sh 'pyinstaller --onefile sources/add2vals.py'
+                python3 -m venv /tmp/venv
+                . /tmp/venv/bin/activate
+                pip install pyinstaller
+                pyinstaller --onefile sources/add2vals.py
             }
             post {
                 success {
