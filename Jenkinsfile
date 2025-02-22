@@ -14,20 +14,20 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'python:3.8-alpine' // ARM-native image
-                    args '--rm'
+                    image 'python:3.8-alpine'
                 }
             }
             steps {
-                sh 'pip install --no-cache-dir pytest'
-                sh 'pytest --verbose --junit-xml ${TEST_REPORTS} sources/test_calc.py'
+                sh 'pip install --no-cache-dir --root /pytest pytest' // ✅ Install pytest in a writable directory
+                sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
                 always {
-                    junit "${TEST_REPORTS}"
+                    junit 'test-reports/results.xml'
                 }
             }
         }
+
         stage('Deliver') {
             agent {
                 docker {
