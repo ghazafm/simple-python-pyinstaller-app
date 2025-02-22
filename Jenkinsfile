@@ -37,7 +37,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'pip install --no-cache-dir --root /pytest pytest'
+                sh 'pip install --no-cache-dir pytest'
                 sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
