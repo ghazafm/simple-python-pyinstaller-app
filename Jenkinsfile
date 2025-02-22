@@ -14,15 +14,17 @@ pipeline {
         stage('Test') {
             agent {
                 docker {
-                    image 'qnib/pytest'
+                    image 'python:3.8-alpine' // ARM-native image
+                    args '--rm'
                 }
             }
             steps {
-                sh 'py.test --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
+                sh 'pip install --no-cache-dir pytest'
+                sh 'pytest --verbose --junit-xml ${TEST_REPORTS} sources/test_calc.py'
             }
             post {
                 always {
-                    junit 'test-reports/results.xml'
+                    junit "${TEST_REPORTS}"
                 }
             }
         }
