@@ -33,12 +33,12 @@ pipeline {
             agent {
                 docker {
                     image 'python:3.8-alpine'
+                    args '--user root'
                 }
             }
             steps {
                 sh '''
-                python3 -m venv /tmp/venv
-                . /tmp/venv/bin/activate
+                apk add --no-cache py3-pip
                 pip install pyinstaller
                 pyinstaller --onefile sources/add2vals.py
                 '''
