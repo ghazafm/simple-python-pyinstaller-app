@@ -20,7 +20,7 @@ node {
             }
             junit 'test-reports/results.xml'
         }
-        stage('Deliver') {
+        stage('Deploy') {
             def success = false
 
             try {
