@@ -37,7 +37,8 @@ pipeline {
             }
             steps {
                 sh '''
-                apk add --no-cache py3-pip
+                python3 -m venv /tmp/venv
+                . /tmp/venv/bin/activate
                 pip install pyinstaller
                 pyinstaller --onefile sources/add2vals.py
                 '''
