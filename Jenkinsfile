@@ -29,7 +29,7 @@ pipeline {
                 }
             }
         }
-        stage('Aprroval') {
+        stage('Manual Approval') {
             steps {
                 input message: 'Deploy to Production?'
             }
