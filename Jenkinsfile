@@ -43,6 +43,7 @@ pipeline {
             }
             steps {
                 sh 'pip install --no-cache-dir pytest'
+                sleep time: 1, unit: 'MINUTES'
                 sh 'pytest --verbose --junit-xml test-reports/results.xml sources/test_calc.py'
             }
             post {
